@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evolución y Futuro del Portal Kiai</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #ef781b; /* Color naranja Kiai */
+            --secondary: #2c3e50;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --success: #28a745;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f6f9;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--dark) 100%);
+            color: var(--white);
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        header img {
+            max-height: 80px;
+            margin-bottom: 1rem;
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-top: 0.5rem;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Sections */
+        section {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+        }
+
+        h2 {
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 0.5rem;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h3 {
+            color: var(--secondary);
+            margin-top: 1.5rem;
+        }
+
+        /* Cards Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .card {
+            background: var(--light);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 5px solid var(--primary);
+        }
+
+        .card i {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .card h4 {
+            margin: 0 0 0.5rem 0;
+            color: var(--secondary);
+        }
+
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            background: white;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .highlight-kiai {
+            background-color: rgba(239, 120, 27, 0.1);
+            font-weight: bold;
+        }
+
+        /* Images in content */
+        .content-img {
+            width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin: 1rem 0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        /* Roadmap List */
+        .roadmap-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .roadmap-list li {
+            background: white;
+            border-bottom: 1px solid #eee;
+            padding: 1rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .roadmap-list li:last-child {
+            border-bottom: none;
+        }
+
+        .roadmap-icon {
+            background: var(--primary);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--secondary);
+            font-size: 0.9rem;
+        }
+
+        .badge {
+            background-color: var(--success);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <!-- Logo Placeholder - Ajustar ruta si es necesario -->
+        <img src="./Imagenes/cropped-logo-kiai-pagina_Mesa-de-trabajo-1-copia-qktgdls6bclc7fb4kzqcp6dtphu2blb083tpa6l9a4.png" alt="Logo Kiai">
+        <h1>Portal Kiai</h1>
+        <p>Evolución Tecnológica y Estrategia de Producto</p>
+    </header>
+
+    <div class="container">
+
+        <!-- SECCIÓN 1: RESUMEN FUNCIONAL -->
+        <section id="resumen">
+            <h2><i class="fas fa-project-diagram"></i> Ecosistema Actual Kiai</h2>
+            <p>Kiai es una plataforma integral especializada en el cumplimiento normativo del <strong>Sector Salud</strong>, centralizando la operación financiera y clínica.</p>
+            
+            <div class="grid">
+                <div class="card">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                    <h4>Facturación Electrónica</h4>
+                    <p>Emisión de facturas, notas crédito/débito y gestión de impuestos. El corazón financiero del sistema.</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-heartbeat"></i>
+                    <h4>Módulo Salud (RIPS)</h4>
+                    <p>Gestión de pacientes, diagnósticos (CIE) y procedimientos (CUPS). Generación automática de archivos de reporte.</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-boxes"></i>
+                    <h4>Inventario y Productos</h4>
+                    <p>Control de catálogo de servicios médicos y productos, con manejo de unidades de medida.</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-users"></i>
+                    <h4>Clientes y Proveedores</h4>
+                    <p>Base de datos centralizada de terceros con información tributaria detallada.</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-file-download"></i>
+                    <h4>Reportes y Descargas</h4>
+                    <p>Descarga masiva de documentos (PDF/XML) y reportes consolidados para auditoría contable.</p>
+                </div>
+            </div>
+        </section>
+
+
+
+        <!-- SECCIÓN 3: MEJORAS RECIENTES -->
+        <section id="mejoras">
+            <h2><i class="fas fa-rocket"></i> Mejoras Recientes Implementadas</h2>
+            <p>Hemos optimizado el portal enfocándonos en la integridad de datos y la eficiencia operativa, atacando puntos críticos de dolor del usuario.</p>
+
+            <div class="roadmap-list">
+                <li>
+                    <div class="roadmap-icon"><i class="fas fa-shield-alt"></i></div>
+                    <div>
+                        <strong>Blindaje de Datos y Validaciones (Data Integrity)</strong>
+                        <p><strong>Mejora:</strong> Implementación de validaciones estrictas en formularios (campos obligatorios, detección de duplicados por documento).</p>
+                        <p><strong>Impacto:</strong> Se eliminan las "fugas de errores" en la aplicación, asegurando la calidad de la información desde el ingreso.</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="roadmap-icon"><i class="fas fa-magic"></i></div>
+                    <div>
+                        <strong>Automatización y Eficiencia (Smart Automation)</strong>
+                        <p><strong>Mejora:</strong> Operaciones automáticas en campos clave y preselección inteligente de la <em>Resolución de Facturación</em> más usada.</p>
+                        <p><strong>Impacto:</strong> Ahorro significativo de tiempo al emitir facturas o registrar clientes, eliminando la necesidad de ingresar datos repetitivos manualmente.</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="roadmap-icon"><i class="fas fa-cloud-download-alt"></i></div>
+                    <div>
+                        <strong>Nuevo Ecosistema de Descarga Masiva</strong>
+                        <p><strong>Mejora:</strong> Formulario simplificado para carga de consecutivos con validaciones de Excel (límites de registros), alertas informativas (Spam) y conexión a SharePoint.</p>
+                        <p><strong>Impacto:</strong> Facilita la gestión masiva de documentos y guía al usuario paso a paso, reduciendo la fricción operativa.</p>
+                    </div>
+                </li>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 4: ANÁLISIS DE MERCADO -->
+        <section id="mercado">
+            <h2><i class="fas fa-chart-pie"></i> Kiai vs. El Mercado (Alegra/Siigo)</h2>
+            <p><strong>Contexto Competitivo:</strong> Las soluciones líderes del mercado como <em>Alegra</em> o <em>Siigo</em> apuntan a un <strong>nicho generalista y masivo</strong> (Comercio minorista, ferreterías, servicios básicos), donde la prioridad es la simplicidad y la estética. Kiai, en cambio, atiende la <strong>complejidad normativa del Sector Salud</strong>.</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Característica</th>
+                        <th>Alegra / Siigo (Generalistas)</th>
+                        <th>Kiai (Especialista)</th>
+                        <th>Veredicto</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Público Objetivo</strong></td>
+                        <td>Tiendas, Ferreterías, Servicios Generales.</td>
+                        <td class="highlight-kiai">Sector Salud (IPS, Clínicas).</td>
+                        <td><strong>Ventaja Kiai:</strong> Solución nativa para RIPS.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Experiencia (UX)</strong></td>
+                        <td>Muy Alta (Intuitiva).</td>
+                        <td style="color: #c0392b; font-weight: bold;">Funcional pero compleja (Basada en formularios).</td>
+                        <td style="color: #c0392b;"><strong>Crítico:</strong> Curva de aprendizaje alta.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Reportes (BI)</strong></td>
+                        <td>Dashboards Gráficos Avanzados.</td>
+                        <td style="color: #c0392b; font-weight: bold;">Solo Listados y Excel.</td>
+                        <td style="color: #c0392b;"><strong>Crítico:</strong> Falta visión gerencial gráfica.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Ecosistema</strong></td>
+                        <td>Todo en uno (Nómina, Contabilidad).</td>
+                        <td style="color: #c0392b; font-weight: bold;">Facturación + RIPS (Incompleto).</td>
+                        <td style="color: #c0392b;"><strong>Crítico:</strong> Falta integrar Nómina y Gastos.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Gráfica Comparativa -->
+            <div style="margin-top: 3rem;">
+                <h3><i class="fas fa-chart-bar"></i> Cobertura Funcional: Kiai vs. Competencia</h3>
+                <p>Comparativa porcentual basada en la madurez de los módulos actuales.</p>
+                
+                <style>
+                    .chart-row { margin-bottom: 1.5rem; }
+                    .chart-label { display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.9rem; }
+                    .bar-container { background: #e9ecef; border-radius: 5px; height: 25px; position: relative; overflow: hidden; display: flex; }
+                    .bar { height: 100%; display: flex; align-items: center; padding-left: 10px; font-size: 0.75rem; color: white; transition: width 1s ease-in-out; }
+                    .bar-kiai { background-color: #ef781b; z-index: 2; }
+                    .bar-market { background-color: #95a5a6; opacity: 0.6; }
+                    .legend { display: flex; gap: 20px; justify-content: center; margin-top: 1rem; font-size: 0.85rem; }
+                    .dot { width: 10px; height: 10px; display: inline-block; border-radius: 50%; margin-right: 5px; }
+                </style>
+
+                <div class="chart-wrapper">
+                    <!-- Item 1 -->
+                    <div class="chart-row">
+                        <div class="chart-label">
+                            <span>Especialización Salud (RIPS/CIE/CUPS)</span>
+                            <span>Kiai Lidera</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar bar-kiai" style="width: 95%;">Kiai 95%</div>
+                            <div class="bar bar-market" style="width: 15%; background: #95a5a6; position: absolute; left: 0;"></div>
+                            <span style="position: absolute; left: 17%; font-size: 0.75rem; color: #555; line-height: 25px;">Mercado 15%</span>
+                        </div>
+                    </div>
+
+                    <!-- Item 2 -->
+                    <div class="chart-row">
+                        <div class="chart-label">
+                            <span>Facturación e Inventario</span>
+                            <span>Paridad Técnica</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar bar-kiai" style="width: 90%;">Kiai 90%</div>
+                            <div class="bar bar-market" style="width: 95%; background: #95a5a6; position: absolute; left: 0; z-index: 1;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Item 3 -->
+                    <div class="chart-row">
+                        <div class="chart-label">
+                            <span>Experiencia de Usuario (UX/UI)</span>
+                            <span>Brecha Importante</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar bar-kiai" style="width: 50%;">Kiai 50%</div>
+                            <div class="bar bar-market" style="width: 95%; background: #95a5a6; position: absolute; left: 0; z-index: 1;"></div>
+                            <span style="position: absolute; right: 10px; font-size: 0.75rem; color: #555; line-height: 25px;">Mercado 95%</span>
+                        </div>
+                    </div>
+
+                    <!-- Item 4 -->
+                    <div class="chart-row">
+                        <div class="chart-label">
+                            <span>Reportes y BI (Analítica)</span>
+                            <span>Brecha Crítica</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar bar-kiai" style="width: 30%;">Kiai 30%</div>
+                            <div class="bar bar-market" style="width: 90%; background: #95a5a6; position: absolute; left: 0; z-index: 1;"></div>
+                            <span style="position: absolute; right: 10px; font-size: 0.75rem; color: #555; line-height: 25px;">Mercado 90%</span>
+                        </div>
+                    </div>
+
+                    <!-- Item 5 -->
+                    <div class="chart-row">
+                        <div class="chart-label">
+                            <span>Ecosistema (Nómina/Gastos)</span>
+                            <span>Brecha Crítica</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar bar-kiai" style="width: 20%;">Kiai 20%</div>
+                            <div class="bar bar-market" style="width: 95%; background: #95a5a6; position: absolute; left: 0; z-index: 1;"></div>
+                            <span style="position: absolute; right: 10px; font-size: 0.75rem; color: #555; line-height: 25px;">Mercado 95%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="legend">
+                    <span><span class="dot" style="background: #ef781b;"></span>Kiai</span>
+                    <span><span class="dot" style="background: #95a5a6;"></span>Promedio Mercado (Alegra/Siigo)</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 5: MEJORAS CORTO PLAZO (Q4 2025) -->
+        <section id="corto-plazo">
+            <h2><i class="fas fa-hourglass-half"></i> Mejoras a Corto Plazo (Cierre 2025)</h2>
+            <p>Objetivos tácticos para finalizar el año, clasificados en usabilidad inmediata y compromisos comerciales.</p>
+
+            <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
+                <!-- Columna 1: Quick Wins -->
+                <div style="flex: 1; min-width: 300px;">
+                    <h3 style="color: #27ae60; margin-top: 0;"><i class="fas fa-check-circle"></i> Mejoras de Usabilidad (Sencillas)</h3>
+                    <div class="card" style="border-left-color: #27ae60; margin-bottom: 1rem; padding: 1rem;">
+                        <h4 style="display: flex; align-items: center; gap: 10px; color: #27ae60;"><i class="fas fa-save" style="font-size: 1rem; margin: 0;"></i> Persistencia de Borradores</h4>
+                        <p style="font-size: 0.9rem; margin-bottom: 0;"><strong>Problema:</strong> Al navegar por la plataforma, se pierde el progreso de la factura.</p>
+                        <p style="font-size: 0.9rem; margin-top: 5px;"><strong>Solución:</strong> El sistema guardará el "borrador" automáticamente para retomar sin empezar de cero.</p>
+                    </div>
+                    <div class="card" style="border-left-color: #27ae60; padding: 1rem;">
+                        <h4 style="display: flex; align-items: center; gap: 10px; color: #27ae60;"><i class="fas fa-list-ol" style="font-size: 1rem; margin: 0;"></i> Consecutivo Automático en NC</h4>
+                        <p style="font-size: 0.9rem; margin-bottom: 0;"><strong>Problema:</strong> Búsqueda manual tediosa del consecutivo al hacer Notas Crédito.</p>
+                        <p style="font-size: 0.9rem; margin-top: 5px;"><strong>Solución:</strong> Carga automática del consecutivo correspondiente al abrir el formulario.</p>
+                    </div>
+                </div>
+
+                <!-- Columna 2: Requerimientos Clientes -->
+                <div style="flex: 1; min-width: 300px;">
+                    <h3 style="color: #2980b9; margin-top: 0;"><i class="fas fa-briefcase"></i> Solicitudes de Clientes</h3>
+                    <ul class="roadmap-list" style="margin-top: 0;">
+                        <li>
+                            <div class="roadmap-icon" style="background: #2980b9; width: 25px; height: 25px; font-size: 0.8rem;"><i class="fas fa-envelope-open-text"></i></div>
+                            <div>
+                                <strong>Renotificación Masiva</strong>
+                                <p style="font-size: 0.9rem; margin: 0;">Envío masivo de correos de facturas ya emitidas.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="roadmap-icon" style="background: #2980b9; width: 25px; height: 25px; font-size: 0.8rem;"><i class="fas fa-user-md"></i></div>
+                            <div>
+                                <strong>Vista Aliado (COHAN)</strong>
+                                <p style="font-size: 0.9rem; margin: 0;">Interfaz especializada para la cooperativa.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="roadmap-icon" style="background: #2980b9; width: 25px; height: 25px; font-size: 0.8rem;"><i class="fas fa-sync-alt"></i></div>
+                            <div>
+                                <strong>Actualización de Eventos</strong>
+                                <p style="font-size: 0.9rem; margin: 0;">Sincronización automática de eventos a instituciones.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 6: HOJA DE RUTA -->
+        <section id="futuro">
+            <h2><i class="fas fa-map-signs"></i> Hoja de Ruta: El Siguiente Nivel</h2>
+            <p>Para consolidar a Kiai como la herramienta líder, proponemos las siguientes evoluciones:</p>
+            
+            <!-- Tarjeta Estratégica Principal -->
+            <div class="card" style="border-left: 5px solid #dd0031; margin-bottom: 2rem; background: #fff5f7;">
+                <div style="display: flex; align-items: flex-start; gap: 20px;">
+                    <div style="background: white; padding: 15px; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                        <i class="fab fa-angular" style="color: #dd0031; font-size: 2.5rem; margin: 0;"></i>
+                    </div>
+                    <div>
+                        <h4 style="color: #c3002f; font-size: 1.2rem; margin-top: 0;">Evolución Tecnológica: Migración a Angular + .NET</h4>
+                        <p><strong>El Gran Salto:</strong> Migrar el Frontend actual (Lappiz) a un desarrollo nativo en <strong>Angular</strong>, conectándolo directamente al Backend existente en <strong>.NET</strong> mediante la API actual de Kiai.</p>
+                        <p style="font-size: 0.95rem; margin-top: 0.5rem;"><strong>Estrategia Técnica:</strong></p>
+                        <ul style="margin: 5px 0 0 20px; font-size: 0.9rem; color: #555;">
+                            <li><strong>Reutilización:</strong> Aprovechar los servicios y lógica de negocio ya estabilizados en el Backend .NET.</li>
+                            <li><strong>Independencia:</strong> Desacoplar la interfaz gráfica para eliminar conflictos de la plataforma "No-Code".</li>
+                            <li><strong>Escalabilidad:</strong> Arquitectura robusta preparada para soportar todos los nuevos desarrollos futuros sin limitaciones.</li>
+                        </ul>
+
+                        <!-- Comparativa Técnica JS vs Angular -->
+                        <div style="margin-top: 1.5rem; background: white; padding: 15px; border-radius: 8px; border: 1px solid #eee;">
+                            <h5 style="margin: 0 0 10px 0; color: #333;">¿Por qué abandonar el modelo actual (JS en Lappiz)?</h5>
+                            <table style="width: 100%; font-size: 0.85rem; border: none; margin-top: 0;">
+                                <tr style="background: transparent;">
+                                    <td style="width: 50%; vertical-align: top; padding-right: 10px; border: none;">
+                                        <strong style="color: #e67e22;"><i class="fab fa-js"></i> Actual (JS en Contenedor):</strong>
+                                        <ul style="padding-left: 15px; margin: 5px 0; color: #666;">
+                                            <li><strong>Conflictos Silenciosos:</strong> Al inyectar código JS en una plataforma cerrada, las actualizaciones del proveedor rompen funcionalidades sin aviso.</li>
+                                            <li><strong>Difícil Mantenimiento:</strong> Código disperso en "cajas de texto", sin tipado fuerte ni herramientas de depuración avanzadas.</li>
+                                            <li><strong>Rendimiento Limitado:</strong> Depende del renderizado de la plataforma base.</li>
+                                        </ul>
+                                    </td>
+                                    <td style="width: 50%; vertical-align: top; padding-left: 10px; border-left: 1px solid #eee; border-bottom: none;">
+                                        <strong style="color: #dd0031;"><i class="fab fa-angular"></i> Futuro (Angular + .NET):</strong>
+                                        <ul style="padding-left: 15px; margin: 5px 0; color: #666;">
+                                            <li><strong>Estabilidad Total:</strong> Código compilado y tipado (TypeScript). Si hay un error, se detecta antes de subir a producción.</li>
+                                            <li><strong>Arquitectura Profesional:</strong> Estructura modular de componentes estándar de la industria.</li>
+                                            <li><strong>Potencia .NET:</strong> Lógica pesada en el servidor, segura y veloz.</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <!-- Fila de Ambientes -->
+                                <tr>
+                                    <td colspan="2" style="padding-top: 10px; border-top: 1px dashed #eee;"></td>
+                                </tr>
+                                <tr>
+                                    <td style="vertical-align: top; padding-right: 10px;">
+                                        <strong style="color: #e67e22; font-size: 0.85rem;"><i class="fas fa-exclamation-triangle"></i> Riesgo Operativo (Ambientes):</strong>
+                                        <p style="margin: 5px 0; color: #666; font-size: 0.85rem;">
+                                            Actualmente se desarrolla directo en <strong>Producción</strong> porque el ambiente de pruebas es inestable y tedioso de actualizar. <br>
+                                            <em>Consecuencia:</em> Cualquier error detiene la operación real del cliente.
+                                        </p>
+                                    </td>
+                                    <td style="vertical-align: top; padding-left: 10px; border-left: 1px solid #eee;">
+                                        <strong style="color: #27ae60; font-size: 0.85rem;"><i class="fas fa-server"></i> Ciclo DevOps Seguro:</strong>
+                                        <p style="margin: 5px 0; color: #666; font-size: 0.85rem;">
+                                            Separación estricta: <em>Desarrollo → QA → Producción</em>. <br>
+                                            El código se prueba sin tocar datos reales. Despliegues automáticos (CI/CD) sin intervención manual.
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Prototipo Visual -->
+            <div style="margin-top: 3rem;">
+                <h3><i class="fas fa-eye"></i> Prototipo Visual: La Nueva Experiencia Kiai</h3>
+                <p>Visualización conceptual de la usabilidad mejorada en el nuevo portal Angular.</p>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem; margin-top: 1.5rem;">
+                    
+                    <!-- Demo 1 -->
+                    <div style="background: white; padding: 15px; border-radius: 10px; box-shadow: 0 3px 10px rgba(0,0,0,0.08);">
+                        <h4 style="color: #2c3e50; margin-top: 0; border-bottom: 2px solid #eee; padding-bottom: 10px;">
+                            <span class="badge" style="background: #ef781b;">1</span> Selección Rápida de Documentos
+                        </h4>
+                        <img src="./Imagenes/1.png" alt="Selección Documentos" class="zoomable-image" onclick="openModal(this)" style="width: 100%; border-radius: 5px; border: 1px solid #eee;">
+                        <p style="font-size: 0.9rem; color: #555; margin-bottom: 0;">
+                            <strong>Mejora:</strong> Menú de acceso directo para elegir el tipo de documento (Factura, Doc. Soporte, etc.) sin navegar por múltiples menús. Agilidad inmediata.
+                        </p>
+                    </div>
+
+                    <!-- Demo 2 -->
+                    <div style="background: white; padding: 15px; border-radius: 10px; box-shadow: 0 3px 10px rgba(0,0,0,0.08);">
+                        <h4 style="color: #2c3e50; margin-top: 0; border-bottom: 2px solid #eee; padding-bottom: 10px;">
+                            <span class="badge" style="background: #ef781b;">2</span> Visualización de Terceros (Cards)
+                        </h4>
+                        <img src="./Imagenes/2.png" alt="Vista Terceros" class="zoomable-image" onclick="openModal(this)" style="width: 100%; border-radius: 5px; border: 1px solid #eee;">
+                        <p style="font-size: 0.9rem; color: #555; margin-bottom: 0;">
+                            <strong>Mejora:</strong> Reemplazo de grillas planas por "Tarjetas de Información" que destacan los datos clave del cliente de un vistazo.
+                        </p>
+                    </div>
+
+                    <!-- Demo 3 -->
+                    <div style="background: white; padding: 15px; border-radius: 10px; box-shadow: 0 3px 10px rgba(0,0,0,0.08);">
+                        <h4 style="color: #2c3e50; margin-top: 0; border-bottom: 2px solid #eee; padding-bottom: 10px;">
+                            <span class="badge" style="background: #ef781b;">3</span> Gestión de Intereses (Pronto Pago)
+                        </h4>
+                        <img src="./Imagenes/3.png" alt="Intereses Pronto Pago" class="zoomable-image" onclick="openModal(this)" style="width: 100%; border-radius: 5px; border: 1px solid #eee;">
+                        <p style="font-size: 0.9rem; color: #555; margin-bottom: 0;">
+                            <strong>Mejora:</strong> Diseño visual intuitivo para conceptos financieros complejos, facilitando la lectura sin depender de tablas extensas.
+                        </p>
+                    </div>
+
+                    <!-- Demo 4 -->
+                    <div style="background: white; padding: 15px; border-radius: 10px; box-shadow: 0 3px 10px rgba(0,0,0,0.08);">
+                        <h4 style="color: #2c3e50; margin-top: 0; border-bottom: 2px solid #eee; padding-bottom: 10px;">
+                            <span class="badge" style="background: #ef781b;">4</span> Dashboard de Reportes
+                        </h4>
+                        <img src="./Imagenes/4.webp" alt="Dashboard Reportes" class="zoomable-image" onclick="openModal(this)" style="width: 100%; border-radius: 5px; border: 1px solid #eee;">
+                        <p style="font-size: 0.9rem; color: #555; margin-bottom: 0;">
+                            <strong>Mejora:</strong> Implementación de gráficas significativas y resumidas para la toma de decisiones gerenciales (BI real).
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Desarrollos Futuros -->
+            <div style="margin-top: 4rem; border-top: 1px solid #eee; padding-top: 2rem;">
+                <h3><i class="fas fa-code-branch"></i> Desarrollos e Implementaciones Futuras</h3>
+                <p>Módulos estratégicos proyectados para completar el ecosistema ERP de Salud y cerrar las brechas de mercado.</p>
+
+                <div class="grid">
+                    <div class="card" style="border-left-color: #e74c3c;">
+                        <i class="fas fa-chart-line" style="color: #e74c3c;"></i>
+                        <h4>1. Inteligencia de Negocios (BI)</h4>
+                        <p><strong>Objetivo:</strong> Transformar datos en decisiones estratégicas.</p>
+                        <p style="font-size: 0.9rem; color: #555;">Actualmente el cliente ve tablas; necesita ver tendencias. Implementaremos tableros gerenciales que muestren en tiempo real: <em>Facturación vs. Recaudo</em>, análisis de Glosas por EPS y proyección de flujo de caja.</p>
+                    </div>
+                    <div class="card" style="border-left-color: #3498db;">
+                        <i class="fas fa-file-contract" style="color: #3498db;"></i>
+                        <h4>2. Nómina Electrónica</h4>
+                        <p><strong>Objetivo:</strong> Centralización administrativa total.</p>
+                        <p style="font-size: 0.9rem; color: #555;">Permitir liquidar y transmitir la nómina directamente desde Kiai. Esto evita que la clínica pague otro software externo y permite cruzar los costos de personal médico contra los ingresos por facturación.</p>
+                    </div>
+                    <div class="card" style="border-left-color: #f1c40f;">
+                        <i class="fas fa-paint-brush" style="color: #f1c40f;"></i>
+                        <h4>3. UX/UI Moderno (Angular)</h4>
+                        <p><strong>Objetivo:</strong> Reducir la curva de aprendizaje y el soporte.</p>
+                        <p style="font-size: 0.9rem; color: #555;">Un sistema intuitivo que no requiera manuales. Incluirá buscadores globales (tipo Google), tutoriales interactivos y flujos de trabajo simplificados para reducir la carga operativa del usuario.</p>
+                    </div>
+                    <div class="card" style="border-left-color: #9b59b6;">
+                        <i class="fas fa-wallet" style="color: #9b59b6;"></i>
+                        <h4>4. Gestión de Gastos y Compras</h4>
+                        <p><strong>Objetivo:</strong> Visión financiera 360° (P&G).</p>
+                        <p style="font-size: 0.9rem; color: #555;">Evolucionar de solo facturar (ingresos) a controlar también las cuentas por pagar (egresos). Esto permitirá entregar un Estado de Resultados automático al contador sin salir de Kiai.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 2rem;">
+                <img src="./Imagenes/Img-kiai-1.jpg" alt="Futuro Kiai" class="content-img" style="max-width: 600px;">
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Equipo de Desarrollo Kiai. Generado para presentación ejecutiva.</p>
+    </footer>
+
+    <!-- Modal para ver imágenes -->
+    <div id="imageModal" class="modal">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <img class="modal-content" id="img01">
+        <div id="caption"></div>
+    </div>
+
+    <style>
+        /* Estilos del Modal */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1000; 
+            padding-top: 50px; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgb(0,0,0); 
+            background-color: rgba(0,0,0,0.9); 
+        }
+
+        .modal-content {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 1200px;
+            max-height: 85vh;
+            object-fit: contain;
+            animation-name: zoom;
+            animation-duration: 0.6s;
+        }
+
+        @keyframes zoom {
+            from {transform:scale(0)} 
+            to {transform:scale(1)}
+        }
+
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Clase para las imágenes clickeables */
+        .zoomable-image {
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .zoomable-image:hover {
+            opacity: 0.8;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        }
+    </style>
+
+    <script>
+        function openModal(element) {
+            var modal = document.getElementById("imageModal");
+            var modalImg = document.getElementById("img01");
+            modal.style.display = "block";
+            modalImg.src = element.src;
+        }
+
+        function closeModal() {
+            var modal = document.getElementById("imageModal");
+            modal.style.display = "none";
+        }
+
+        // Cerrar al hacer click fuera de la imagen
+        window.onclick = function(event) {
+            var modal = document.getElementById("imageModal");
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+
+</body>
+</html>
