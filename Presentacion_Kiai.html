@@ -482,8 +482,21 @@
                         <p style="font-size: 0.95rem; margin-top: 0.5rem;"><strong>Estrategia Técnica:</strong></p>
                         <ul style="margin: 5px 0 0 20px; font-size: 0.9rem; color: #555;">
                             <li><strong>Reutilización:</strong> Aprovechar los servicios y lógica de negocio ya estabilizados en el Backend .NET.</li>
-                            <li><strong>Independencia:</strong> Desacoplar la interfaz gráfica para eliminar conflictos de la plataforma "No-Code".</li>
+                            <li><strong>Independencia:</strong> Desacoplar la interfaz gráfica para eliminar conflictos de la plataforma "Low-Code".</li>
                             <li><strong>Escalabilidad:</strong> Arquitectura robusta preparada para soportar todos los nuevos desarrollos futuros sin limitaciones.</li>
+                        </ul>
+
+                        <p style="font-size: 0.95rem; margin-top: 1rem;"><strong>Estrategia de Testing (Cypress):</strong></p>
+                        <p style="font-size: 0.9rem; color: #555; margin-top: 5px; margin-bottom: 10px; font-style: italic; border-left: 3px solid #27ae60; padding-left: 10px;">
+                            "En sistemas de misión crítica, la calidad no es negociable. Las pruebas automatizadas son el único mecanismo que garantiza que el software funcione perfectamente antes de llegar al cliente, evitando que sean los usuarios quienes descubran los errores en plena operación."
+                        </p>
+                        <ul style="margin: 5px 0 0 20px; font-size: 0.9rem; color: #555;">
+                            <li style="margin-bottom: 5px;"><strong>Pruebas E2E:</strong> Flujos completos de usuario (login, navegación) en navegador real.</li>
+                            <li style="margin-bottom: 5px;"><strong>Component Testing:</strong> Validación aislada de UI y comportamiento de componentes Angular.</li>
+                            <li style="margin-bottom: 5px;"><strong>Integration Tests:</strong> Interacción entre componentes y módulos padres/hijos.</li>
+                            <li style="margin-bottom: 5px;"><strong>API / Contract Tests:</strong> Verificación de integridad de datos y endpoints sin UI.</li>
+                            <li style="margin-bottom: 5px;"><strong>Visual / Regression:</strong> Detección automática de cambios visuales no deseados.</li>
+                            <li><strong>Robustez (Red/Edge-cases):</strong> Simulación de latencia y fallos de red para validar resiliencia.</li>
                         </ul>
 
                         <!-- Comparativa Técnica JS vs Angular -->
@@ -497,6 +510,11 @@
                                             <li><strong>Conflictos Silenciosos:</strong> Al inyectar código JS en una plataforma cerrada, las actualizaciones del proveedor rompen funcionalidades sin aviso.</li>
                                             <li><strong>Difícil Mantenimiento:</strong> Código disperso en "cajas de texto", sin tipado fuerte ni herramientas de depuración avanzadas.</li>
                                             <li><strong>Rendimiento Limitado:</strong> Depende del renderizado de la plataforma base.</li>
+                                            <li><strong>Falta de Garantías (Sin Tests):</strong> Inexistencia de pruebas automatizadas de UI, dejando la detección de errores a los usuarios finales en producción.</li>
+                                            <li><strong>Monolito Rígido:</strong> Imposibilidad técnica de implementar arquitectura de Micro Frontends para escalar si el proyecto crece.</li>
+                                            <li><strong>Dependencia de Proveedor:</strong> Tiempos de respuesta dependientes del proveedor ante incidentes críticos para restablecer el servicio.</li>
+                                            <li><strong>Seguridad Expuesta:</strong> Lógica de negocio crítica visible y manipulable en el navegador (Client-Side), aumentando riesgos de seguridad.</li>
+                                            <li><strong>UX Restringida:</strong> Dificultad para crear experiencias de usuario fluidas o personalizadas (por usar Vanilla JS); limitados a lo que la herramienta "Low-Code" permite.</li>
                                         </ul>
                                     </td>
                                     <td style="width: 50%; vertical-align: top; padding-left: 10px; border-left: 1px solid #eee; border-bottom: none;">
@@ -505,6 +523,11 @@
                                             <li><strong>Estabilidad Total:</strong> Código compilado y tipado (TypeScript). Si hay un error, se detecta antes de subir a producción.</li>
                                             <li><strong>Arquitectura Profesional:</strong> Estructura modular de componentes estándar de la industria.</li>
                                             <li><strong>Potencia .NET:</strong> Lógica pesada en el servidor, segura y veloz.</li>
+                                            <li><strong>Calidad Asegurada (Testing):</strong> Suite completa (Jasmine/Karma/Cypress) para validar componentes y flujos críticos automáticamente antes de cada entrega.</li>
+                                            <li><strong>Escalabilidad (Micro Frontends):</strong> Capacidad nativa (Module Federation) para dividir la aplicación en micro-apps independientes si el proyecto crece.</li>
+                                            <li><strong>Control de Infraestructura:</strong> Despliegue en nube propia con control total del equipo Kiai, garantizando respuesta inmediata y alta disponibilidad.</li>
+                                            <li><strong>Seguridad Robusta:</strong> Lógica sensible encapsulada en el Backend (.NET), inalcanzable para el usuario final.</li>
+                                            <li><strong>UX/UI Ilimitada:</strong> Libertad total para diseñar interfaces modernas y posibilidad de usar librerías de componentes profesionales.</li>
                                         </ul>
                                     </td>
                                 </tr>
