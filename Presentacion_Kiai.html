@@ -277,6 +277,18 @@
                     <div>
                         <strong>Nuevo Ecosistema de Descarga Masiva</strong>
                         <p><strong>Mejora:</strong> Formulario simplificado para carga de consecutivos con validaciones de Excel (límites de registros), alertas informativas (Spam) y conexión a SharePoint.</p>
+                        <p><strong>Nuevas Funcionalidades:</strong>
+                            <ul>
+                                <li><strong>Gestión de Estados:</strong> El cliente puede visualizar en tiempo real el estado de su tarea de descarga masiva.</li>
+                                <li><strong>Arquitectura de Jobs (Procesamiento en Segundo Plano):</strong>
+                                    <ul>
+                                        <li><em>Job 1 (Envío):</em> Consulta y envía periódicamente las tareas de descarga masiva a la API de Kiai.</li>
+                                        <li><em>Job 2 (Actualización):</em> Actualiza automáticamente el estado de las tareas en segundo plano.</li>
+                                        <li><em>Job 3 (Inserción):</em> Procesa e inserta individualmente las tareas correspondientes a cada documento asociado.</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </p>
                         <p><strong>Impacto:</strong> Facilita la gestión masiva de documentos y guía al usuario paso a paso, reduciendo la fricción operativa.</p>
                     </div>
                 </li>
