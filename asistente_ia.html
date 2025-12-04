@@ -1,0 +1,413 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asistente IA - Kiai</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary-color: #ef781b;
+            --secondary-color: #2c3e50;
+            --bg-light: #f4f6f9;
+            --text-dark: #333;
+            --white: #ffffff;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Segoe UI", sans-serif; }
+        body { background-color: var(--bg-light); color: var(--text-dark); padding: 0; height: 100vh; overflow: hidden; }
+        
+        .slider-wrapper {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .slider-container {
+            display: flex;
+            width: 200%;
+            height: 100%;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .slide {
+            width: 50%;
+            height: 100%;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .nav-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: white;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            z-index: 100;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s;
+        }
+        .nav-arrow:hover { background: var(--primary-color); color: white; }
+        .nav-arrow.right { right: 10px; }
+        .nav-arrow.left { left: 10px; display: none; }
+
+        /* Chat Styles Shared */
+        .chat-container {
+            flex: 1;
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            height: 100%;
+        }
+        
+        .chat-header {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: linear-gradient(to right, #2c3e50, #34495e);
+            color: white;
+        }
+        
+        .ai-avatar {
+            width: 40px; height: 40px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem;
+            color: white;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #f8f9fa;
+        }
+        
+        .message { margin-bottom: 20px; max-width: 85%; }
+        .message.user { margin-left: auto; }
+        .message.ai { margin-right: auto; }
+        
+        .bubble {
+            padding: 12px 18px;
+            border-radius: 15px;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            position: relative;
+        }
+        
+        .user .bubble {
+            background: var(--primary-color);
+            color: white;
+            border-bottom-right-radius: 2px;
+        }
+        
+        .ai .bubble {
+            background: white;
+            color: var(--text-dark);
+            border: 1px solid #eee;
+            border-bottom-left-radius: 2px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+        }
+        
+        .chat-input {
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #eee;
+            display: flex;
+            gap: 10px;
+        }
+        
+        input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            outline: none;
+        }
+        
+        button.send-btn {
+            width: 45px; height: 45px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+        }
+        
+        .suggestion-chips {
+            display: flex;
+            gap: 10px;
+            padding: 10px 20px;
+            background: white;
+            overflow-x: auto;
+        }
+        
+        .chip {
+            padding: 6px 12px;
+            background: #f0f2f5;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            white-space: nowrap;
+            color: var(--secondary-color);
+        }
+        .chip:hover { background: #e2e6ea; }
+
+        /* Specific for Slide 2 (Dashboard AI) */
+        .generated-chart-container {
+            margin-top: 15px;
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #eee;
+        }
+    </style>
+</head>
+<body>
+    <div class="slider-wrapper">
+        <div class="slider-container" id="slider">
+            
+            <!-- SLIDE 1: Kiai Assistant (Static/Demo) -->
+            <div class="slide" id="slide1">
+                <div class="chat-container">
+                    <div class="chat-header">
+                        <div class="ai-avatar"><i class="fas fa-robot"></i></div>
+                        <div>
+                            <h3 style="font-size: 1rem;">Kiai Assistant</h3>
+                            <p style="font-size: 0.8rem; opacity: 0.8;">Impulsado por IA Generativa</p>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-messages">
+                        <div class="message ai">
+                            <div class="bubble">
+                                Hola, soy tu asistente financiero. He analizado tus datos de hoy. <br>
+                                <strong>Alerta:</strong> Tienes 3 facturas de proveedores venciendo hoy por valor de .2M. ¿Deseas programar el pago?
+                            </div>
+                        </div>
+                        <div class="message user">
+                            <div class="bubble">
+                                ¿Cómo va el recaudo de este mes comparado con el anterior?
+                            </div>
+                        </div>
+                        <div class="message ai">
+                            <div class="bubble">
+                                El recaudo va un <strong>15% arriba</strong> comparado con el mismo periodo del mes anterior. <br><br>
+                                <i class="fas fa-chart-line" style="color: #2ecc71;"></i> <strong>Noviembre:</strong>  <br>
+                                <i class="fas fa-chart-line" style="color: #95a5a6;"></i> <strong>Octubre:</strong>  <br><br>
+                                La sede Norte es la que mejor desempeño está mostrando.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="suggestion-chips">
+                        <div class="chip">Generar reporte de cartera</div>
+                        <div class="chip">Predecir flujo de caja</div>
+                        <div class="chip">Analizar gastos anómalos</div>
+                    </div>
+                    
+                    <div class="chat-input">
+                        <input type="text" placeholder="Pregúntale algo a tus datos...">
+                        <button class="send-btn"><i class="fas fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 2: Asistente Inteligente Kiai (Interactive from Dashboard) -->
+            <div class="slide" id="slide2">
+                <div class="chat-container">
+                    <div class="chat-header" style="background: linear-gradient(to right, #ef781b, #d35400);">
+                        <div class="ai-avatar" style="background: white; color: #ef781b;"><i class="fas fa-brain"></i></div>
+                        <div>
+                            <div style="font-weight: 600;">Kiai AI Assistant (Dashboard)</div>
+                            <div style="font-size: 0.75rem; color: rgba(255,255,255,0.8);"> En línea - Módulo BI</div>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-messages" id="chatMessages">
+                        <div class="message ai">
+                            <div class="bubble">
+                                Hola Maria, soy tu asistente de inteligencia de negocios. 
+                                <br><br>
+                                Puedo generar reportes instantáneos para ti. Intenta preguntarme:
+                                <br> "Muéstrame las ventas por ciudad"
+                                <br> "¿Cuáles son los productos más vendidos?"
+                                <br> "Comparativo de ingresos vs gastos"
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chat-input">
+                        <input type="text" id="chatInput" placeholder="Escribe tu solicitud de reporte aquí..." onkeypress="handleKeyPress(event)">
+                        <button class="send-btn" onclick="sendMessage()">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <button class="nav-arrow left" id="prevBtn" onclick="moveSlide(-1)"><i class="fas fa-chevron-left"></i></button>
+        <button class="nav-arrow right" id="nextBtn" onclick="moveSlide(1)"><i class="fas fa-chevron-right"></i></button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const totalSlides = 2;
+        const slider = document.getElementById('slider');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        function moveSlide(n) {
+            currentSlide += n;
+            if (currentSlide < 0) currentSlide = 0;
+            if (currentSlide >= totalSlides) currentSlide = totalSlides - 1;
+
+            slider.style.transform = `translateX(-${currentSlide * 50}%)`;
+
+            // Update buttons
+            prevBtn.style.display = currentSlide === 0 ? 'none' : 'flex';
+            nextBtn.style.display = currentSlide === totalSlides - 1 ? 'none' : 'flex';
+        }
+
+        // Chat Logic for Slide 2
+        function handleKeyPress(e) {
+            if (e.key === 'Enter') sendMessage();
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const text = input.value.trim();
+            if (!text) return;
+
+            // Add User Message
+            addMessage(text, 'user');
+            input.value = '';
+
+            // Simulate AI Thinking
+            const loadingId = addMessage('<i class="fas fa-circle-notch fa-spin"></i> Analizando datos...', 'ai');
+
+            setTimeout(() => {
+                // Remove loading message
+                const loadingMsg = document.getElementById(loadingId);
+                if(loadingMsg) loadingMsg.remove();
+
+                // Generate Response
+                generateAIResponse(text);
+            }, 1500);
+        }
+
+        function addMessage(html, type) {
+            const container = document.getElementById('chatMessages');
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `message ${type}`;
+            msgDiv.id = 'msg-' + Date.now();
+            
+            let content = '';
+            if (type === 'ai') {
+                content = `<div class="bubble">${html}</div>`;
+            } else {
+                content = `<div class="bubble">${html}</div>`;
+            }
+            
+            msgDiv.innerHTML = content;
+            container.appendChild(msgDiv);
+            container.scrollTop = container.scrollHeight;
+            return msgDiv.id;
+        }
+
+        function generateAIResponse(query) {
+            const q = query.toLowerCase();
+            let responseHtml = '';
+            let chartConfig = null;
+            let chartId = 'chart-' + Date.now();
+
+            if (q.includes('ventas') || q.includes('ingresos')) {
+                responseHtml = 'Aquí tienes el reporte de ventas de los últimos 6 meses. Se observa una tendencia positiva.';
+                chartConfig = {
+                    type: 'bar',
+                    data: {
+                        labels: ['Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                        datasets: [{
+                            label: 'Ventas (Millones)',
+                            data: [12, 19, 15, 25, 22, 30],
+                            backgroundColor: '#ef781b'
+                        }]
+                    }
+                };
+            } else if (q.includes('ciudad') || q.includes('regiones')) {
+                responseHtml = 'Distribución de facturación por ciudades principales:';
+                chartConfig = {
+                    type: 'pie',
+                    data: {
+                        labels: ['Bogotá', 'Medellín', 'Cali', 'Barranquilla'],
+                        datasets: [{
+                            data: [45, 25, 20, 10],
+                            backgroundColor: ['#ef781b', '#2c3e50', '#e67e22', '#95a5a6']
+                        }]
+                    }
+                };
+            } else if (q.includes('producto') || q.includes('servicios')) {
+                responseHtml = 'Top 5 productos más vendidos este mes:';
+                chartConfig = {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Consultoría', 'Licencias', 'Soporte', 'Implementación', 'Capacitación'],
+                        datasets: [{
+                            data: [30, 25, 20, 15, 10],
+                            backgroundColor: ['#ef781b', '#f39c12', '#d35400', '#e74c3c', '#c0392b']
+                        }]
+                    }
+                };
+            } else {
+                // Fallback "Smart" Response
+                responseHtml = `He generado un análisis personalizado sobre "<b>${query}</b>" basado en los datos históricos:`;
+                chartConfig = {
+                    type: 'bar',
+                    data: {
+                        labels: ['Concepto A', 'Concepto B', 'Concepto C', 'Concepto D'],
+                        datasets: [{
+                            label: 'Indicador Clave',
+                            data: [Math.floor(Math.random() * 50) + 10, Math.floor(Math.random() * 50) + 10, Math.floor(Math.random() * 50) + 10, Math.floor(Math.random() * 50) + 10],
+                            backgroundColor: ['#ef781b', '#2c3e50', '#95a5a6', '#bdc3c7']
+                        }]
+                    }
+                };
+            }
+
+            // Append text response
+            const msgId = addMessage(responseHtml, 'ai');
+            
+            // Append Chart if config exists
+            if (chartConfig) {
+                const msgDiv = document.getElementById(msgId).querySelector('.bubble');
+                const chartContainer = document.createElement('div');
+                chartContainer.className = 'generated-chart-container';
+                chartContainer.innerHTML = `<canvas id="${chartId}"></canvas>`;
+                msgDiv.appendChild(chartContainer);
+
+                // Render Chart
+                new Chart(document.getElementById(chartId), chartConfig);
+            }
+        }
+    </script>
+</body>
+</html>

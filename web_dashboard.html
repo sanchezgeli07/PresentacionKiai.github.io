@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KIAI - Portal Administrativo</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+        :root {
+            --primary-color: #ef781b; /* Kiai Orange */
+            --primary-dark: #d66510;
+            --secondary-color: #2c3e50;
+            --bg-light: #f4f6f9;
+            --text-dark: #333;
+            --text-light: #6c757d;
+            --white: #ffffff;
+            --sidebar-width: 260px;
+            --header-height: 70px;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--white);
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            border-right: 1px solid #eee;
+            display: flex;
+            flex-direction: column;
+            z-index: 1000;
+            transition: all 0.3s;
+        }
+
+        .sidebar-header {
+            height: var(--header-height);
+            display: flex;
+            align-items: center;
+            padding: 0 25px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sidebar-menu {
+            padding: 20px 0;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .menu-category {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: #aaa;
+            padding: 10px 25px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 25px;
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.2s;
+            border-left: 4px solid transparent;
+            font-size: 0.95rem;
+        }
+
+        .menu-item:hover {
+            background-color: #fff5eb;
+            color: var(--primary-color);
+        }
+
+        .menu-item.active {
+            background-color: #fff5eb;
+            color: var(--primary-color);
+            border-left-color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .menu-item i {
+            width: 25px;
+            font-size: 1.1rem;
+        }
+
+        .sidebar-footer {
+            padding: 20px;
+            border-top: 1px solid #f0f0f0;
+            font-size: 0.8rem;
+            color: #aaa;
+            text-align: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        .top-header {
+            height: var(--header-height);
+            background: var(--white);
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            position: sticky;
+            top: 0;
+            z-index: 900;
+        }
+
+        .header-search {
+            background: var(--bg-light);
+            padding: 8px 15px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            width: 300px;
+        }
+
+        .header-search input {
+            border: none;
+            background: transparent;
+            margin-left: 10px;
+            outline: none;
+            width: 100%;
+            color: var(--text-dark);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .icon-btn {
+            position: relative;
+            cursor: pointer;
+            color: var(--text-light);
+            font-size: 1.2rem;
+        }
+
+        .badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--primary-color);
+            color: white;
+            font-size: 0.6rem;
+            padding: 2px 5px;
+            border-radius: 10px;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .avatar {
+            width: 35px;
+            height: 35px;
+            background: var(--secondary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        /* Dashboard Content */
+        .page-content {
+            padding: 30px;
+        }
+
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: var(--secondary-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .date-filter {
+            background: white;
+            border: 1px solid #ddd;
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            cursor: pointer;
+        }
+
+        /* KPI Cards */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .kpi-card {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .kpi-card::after {
+            content: '';
+            position: absolute;
+            right: -10px;
+            top: -10px;
+            width: 80px;
+            height: 80px;
+            background: var(--primary-color);
+            opacity: 0.05;
+            border-radius: 50%;
+        }
+
+        .kpi-title {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 10px;
+        }
+
+        .kpi-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin-bottom: 5px;
+        }
+
+        .kpi-trend {
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .trend-up { color: #2ecc71; }
+        .trend-down { color: #e74c3c; }
+
+        /* Charts Section */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .chart-card {
+            background: var(--white);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .chart-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+
+        /* Table Section */
+        .table-card {
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+        }
+
+        .table-header {
+            padding: 20px 25px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #f8f9fa;
+            padding: 15px 25px;
+            text-align: left;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-light);
+            text-transform: uppercase;
+        }
+
+        td {
+            padding: 15px 25px;
+            border-bottom: 1px solid #eee;
+            font-size: 0.9rem;
+            color: var(--text-dark);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-success { background: #e8f5e9; color: #2e7d32; }
+        .status-warning { background: #fff3e0; color: #ef6c00; }
+        .status-danger { background: #ffebee; color: #c62828; }
+
+        .action-btn {
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            background: white;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.2s;
+        }
+
+        .action-btn:hover {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            .main-content {
+                margin-left: 0;
+            }
+            .sidebar.active {
+                transform: translateX(0);
+            }
+        }
+
+        /* Chat Module Styles */
+        .chat-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow-sm);
+            height: calc(100vh - 140px);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .chat-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .message {
+            max-width: 80%;
+            padding: 12px 18px;
+            border-radius: 15px;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            position: relative;
+            animation: fadeIn 0.3s;
+        }
+        .message.user {
+            align-self: flex-end;
+            background: var(--primary-color);
+            color: white;
+            border-bottom-right-radius: 2px;
+        }
+        .message.ai {
+            align-self: flex-start;
+            background: white;
+            border: 1px solid #eee;
+            color: var(--text-dark);
+            border-bottom-left-radius: 2px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .chat-input-area {
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #eee;
+            display: flex;
+            gap: 10px;
+        }
+        .chat-input {
+            flex: 1;
+            padding: 12px 20px;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .chat-input:focus {
+            border-color: var(--primary-color);
+        }
+        .send-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s;
+        }
+        .send-btn:hover {
+            transform: scale(1.05);
+        }
+        .ai-avatar {
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(135deg, #ef781b 0%, #ff9f43 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+        .generated-chart-container {
+            margin-top: 10px;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #eee;
+            width: 100%;
+            max-width: 500px;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo" style="width: 100%;">
+                <img src="data:image/PNG;base64,iVBORw0KGgoAAAANSUhEUgAAAEYAAABGCAYAAABxLuKEAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAHH0lEQVR4nO2beahUVRzHPw4iIhFeOclDQkTiFS1SttNmC5kt2sazDCqysoXoD9M6tEj4x22h1cQlzXLJqLTSttcirSL1EpEIaZFHRIWcOiHyiOHx6I/feb7pzjnz7tyZOzPUfEF887tn+c33nuW3DbTRRhtt5IcRg39YrSYB44DdUWz6m6ZRi2CE1aoAPA/c5GTfAzOi2OxtnlrNRwG4nCFSADqBp5qjTuugAJzgkR/faEVaDQX3zyf/X+N/T0AIbWICaBMTwMisHa1Wo4EzgT5gRxSbgbpp9e95xgKTgDHAfmBvFJu+QNsCMBDFpuZ5MxFjtToa2ApMdqJPrFYzotj87Wl7ATAXKAJLotj0pBi/A7gVmA0cnXjcb7XqATYAL0axOWC1UsAa4CLgd6vVgig2r3jGnQQsADqAt4C1IRKr3kpWq2nAlwyRAjANuNnT9mKgG7gGuB743GoVNAWsVgWr1ULgJ+BhykkBeZmnAUuAn6xW1wArgEvds8OBde7llY49zul9B3Al8BJwX0iXqohxSnQDYz2Pj/TIbk/MMRq4JTD2GGQVPopsmzQYD2xEjNRSjEReVimuBCYkZHeGBk61laxWAAuBmDCZn3tkPgLLZFarkcAmZCtkgU+nUYnPh6bRZRDDEuOUfgZZgiE8B7w63FgVsIjspOSCisS45b0RmBloMgBo4LGsN4HVqhNZjT7sB1YC7wEGOT+uQM6r5IqoK4LEWK3GI3v+lECTInCD7/SvEvfi/5I7gVlRbH4pke0G3rVaLQHeQYjKBaHz4lDkBA+R8hcwvVZSnC3U5Xn0OxL6+MXzjCg2u4EZQJl5UC9UIuaIwLOfgTOi2HxSh/lPAw7xyBdHsdlXqWMUm2+RbZYLsrgE86LYfFen+ad4ZANA2pW4oU56lCELMaudBVkPHOaRmSg2f6bsv6dOepQhCzETgG53ONcKn39VjZuS282U1bvuBN6zWvmMpmrwm0c2zmo1MWX/qTXOH0QlYvoR5+/pwPOpwBvuZsmKXQH5jSn7z61h7ooIEVMELoti8wIwH1gfaHce4rBlXXk9gO/2uddqdWyljs5BvTrjvMMi9IX2RbF5H8DFWeYC7wfaXg0sdf5UVXD5q7WeR2OAD61WZycfWK2wWnUBr5FjoC3VQRfFpmi1ugr4GLE9krgNefOLMujwOBJ7SZ5XHcCnVqsPEI9+H2LpzgroUFekZtxFzS4BQjbMQy4sURWcITe/QpMLgSeAdYh3nzspUOVSdPbFdMT69WFeRj1WIR56y6AA/OGR/xXq4PyX6Yi3m0TSLil62pTJnGd+N/BIaN4KKCJx5yT2Jz778vE+/QAh5hXKv+QzlTSJYrMH2VYHSsQDwNJE025P9w8DYw5EsdEI6Wkt2u3AqcCzCbkBtiRk2ygn56PQwIUoNr+6wZ8DXgauQpZ2RUSx+Qo4HXHk1iPe8OZEsyfduH3IKlzk5qg07gfAMcgh+zLQy9BK7EdIWwmcgzizu4D7kXNqm9PlrCg2JjHut8ANwK9unC1I6NWLEaEH9UStaQ0XRRwN9NWapnFmRSGvdM9/HrmvGPeGjgKKrVBz43JW44HvKhVI5UqMyyJuRTKWAG8Cs6PYBG+DHHUBsYMWIpfOXuASd5GUIe/c9YMMkQKS/7kt5zlDOBtJsA1+58mU36IHkTcxvrDAiTnPGYJPl2DYIm9idnpk3+Q8Zwg+XXwyIH9iFgNflHzeDCzPec4QPkMs68Fr+keaace4Q68TMb9761GiUaM+HYAC9rTLdttoo41moRGHbxdwHfA1UhXRcKs3CzIXJ6aBK/faiJgFM4HjkLq6psFqNRNxDUYCt0ex2eZrl7cdc1Jiji6r1Uk5zxmEq//bhNT2dSLpZm/bvInxedPBurc8UeJElu6SiQQ4yJuY7ZSHKedUkYKtJy6mvJxtVyhglSsxbtIVCfEo5M01DC7H7vOkF4f6NKJkfhXlwfY5VqtkCWoucFtoBVJdXortSHzIi9yJiWJzAClmTmLNcPnpOuEBpAC7FEXkRgp2atSPLJYDOxKysUh+Opcfjbkc9z34t8vDro4viIYQ47zYaynfUh1IGX3Vqd1KcKUpy5C8eBLvkiKx15D0ySCsVmciSThfSfzrwIIoNr11mGMZ4NumO4Fzo9gks5RlaCgxAFar84A38JewF5EK89XAF2njJVarUUjy/y73vw89SAluqvq+hhMDYLWagpAzuUKzP5Ho3y7gB6QM5AASgRuDpECOAE5GAt3B3wUgWcfr3EWQCk0hBg6mVpYCc3Kc5m8kU/FktZnHphEDB22MwfqXel/dbwPzo9h8n6VzU4kZhMttz0TOiGlkvy2LiNH2BPBVLfHlliCmFFarwxGSzkd+yzDcDyl6ERupG9hSRfF0RbQcMUm4s2gictgOXvN9yGHcm+bqbaONNtpoNfwDigYNjdbyv2MAAAAASUVORK5CYII=" alt="KIAI" style="height: 45px; max-width: 100%; object-fit: contain;">
+            </div>
+        </div>
+
+        <div class="sidebar-menu">
+            <div class="menu-category">Inteligencia de Negocios</div>
+            <a href="#" class="menu-item active" onclick="switchModule('dashboard', this)">
+                <i class="fas fa-chart-pie"></i> Reportes Gerenciales
+            </a>
+            <a href="#" class="menu-item" onclick="switchModule('ai-chat', this)">
+                <i class="fas fa-robot"></i> Asistente IA
+            </a>
+
+            <div class="menu-category">Finanzas</div>
+            <a href="#" class="menu-item" onclick="switchModule('expenses', this)">
+                <i class="fas fa-wallet"></i> Gestión de Gastos
+            </a>
+
+            <div class="menu-category">Operación</div>
+            <a href="#" class="menu-item">
+                <i class="fas fa-file-invoice-dollar"></i> Emitir Documento
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-inbox"></i> Documentos Recepción
+            </a>
+
+            <div class="menu-category">Gestión</div>
+            <a href="#" class="menu-item">
+                <i class="fas fa-users"></i> Mis Contactos
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-box-open"></i> Productos / Servicios
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-envelope-open-text"></i> Trazabilidad Correos
+            </a>
+
+            <div class="menu-category">Configuración</div>
+            <a href="#" class="menu-item">
+                <i class="fas fa-cogs"></i> Parametrización
+            </a>
+
+            <div class="menu-category">Especializado</div>
+            <a href="#" class="menu-item">
+                <i class="fas fa-heartbeat"></i> Sector Salud
+            </a>
+        </div>
+
+        <div class="sidebar-footer">
+            &copy; 2026 KIAI. All rights reserved.
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        
+        <!-- Top Header -->
+        <header class="top-header">
+            <div class="header-search">
+                <i class="fas fa-search" style="color: #aaa;"></i>
+                <input type="text" placeholder="Buscar documentos, clientes...">
+            </div>
+
+            <div class="header-actions">
+                <div class="icon-btn">
+                    <i class="far fa-bell"></i>
+                    <span class="badge">3</span>
+                </div>
+                <div class="icon-btn">
+                    <i class="far fa-question-circle"></i>
+                </div>
+                <div class="user-profile">
+                    <div class="avatar">MS</div>
+                    <div style="font-size: 0.9rem;">
+                        <div style="font-weight: 600;">Maria Sanchez</div>
+                        <div style="font-size: 0.75rem; color: #888;">Administrador</div>
+                    </div>
+                    <i class="fas fa-chevron-down" style="font-size: 0.8rem; color: #aaa;"></i>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dashboard Content -->
+        <div class="page-content" id="dashboard-view">
+            
+            <div class="page-title">
+                Dashboard Gerencial
+                <button class="date-filter">
+                    <i class="far fa-calendar-alt"></i> Este Mes <i class="fas fa-chevron-down" style="font-size: 0.8rem; margin-left: 5px;"></i>
+                </button>
+            </div>
+
+            <!-- KPI Cards -->
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-title">Ventas Totales</div>
+                    <div class="kpi-value">$ 45.2M</div>
+                    <div class="kpi-trend trend-up">
+                        <i class="fas fa-arrow-up"></i> 12.5% vs mes anterior
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-title">Facturas Emitidas</div>
+                    <div class="kpi-value">128</div>
+                    <div class="kpi-trend trend-up">
+                        <i class="fas fa-arrow-up"></i> 5.2% vs mes anterior
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-title">Pendiente de Pago</div>
+                    <div class="kpi-value">$ 8.4M</div>
+                    <div class="kpi-trend trend-down">
+                        <i class="fas fa-arrow-down"></i> 2.1% vs mes anterior
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-title">Nuevos Clientes</div>
+                    <div class="kpi-value">12</div>
+                    <div class="kpi-trend trend-up">
+                        <i class="fas fa-arrow-up"></i> 3 nuevos esta semana
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts -->
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div class="chart-title">Comportamiento de Ventas</div>
+                        <i class="fas fa-ellipsis-h" style="color: #aaa; cursor: pointer;"></i>
+                    </div>
+                    <canvas id="salesChart" height="250"></canvas>
+                </div>
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div class="chart-title">Estado de Facturas</div>
+                    </div>
+                    <canvas id="statusChart" height="250"></canvas>
+                </div>
+            </div>
+
+            <!-- Recent Documents Table -->
+            <div class="table-card">
+                <div class="table-header">
+                    <div class="chart-title">Documentos Recientes</div>
+                    <button class="action-btn" style="background: var(--primary-color); color: white; border: none;">
+                        <i class="fas fa-plus"></i> Nuevo Documento
+                    </button>
+                </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Estado DIAN</th>
+                                <th>Número</th>
+                                <th>Fecha</th>
+                                <th>Cliente / Proveedor</th>
+                                <th>NIT</th>
+                                <th>Total</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="status-badge status-success">Aceptado</span></td>
+                                <td>KIAI123</td>
+                                <td>24/10/2025</td>
+                                <td>KIAI S.A.S</td>
+                                <td>901.337.751</td>
+                                <td>$ 2.500.000</td>
+                                <td><button class="action-btn"><i class="fas fa-eye"></i></button></td>
+                            </tr>
+                            <tr>
+                                <td><span class="status-badge status-success">Aceptado</span></td>
+                                <td>FEC68033</td>
+                                <td>26/12/2024</td>
+                                <td>CONFORT CONSULTORIA</td>
+                                <td>901.465.240</td>
+                                <td>$ 1.850.000</td>
+                                <td><button class="action-btn"><i class="fas fa-eye"></i></button></td>
+                            </tr>
+                            <tr>
+                                <td><span class="status-badge status-warning">Pendiente</span></td>
+                                <td>IE1679033</td>
+                                <td>13/12/2024</td>
+                                <td>GROUPE FOURMIS SAS</td>
+                                <td>900.594.081</td>
+                                <td>$ 3.200.000</td>
+                                <td><button class="action-btn"><i class="fas fa-eye"></i></button></td>
+                            </tr>
+                            <tr>
+                                <td><span class="status-badge status-danger">Rechazado</span></td>
+                                <td>C1386033</td>
+                                <td>04/12/2024</td>
+                                <td>ADRIANA TAMAYO</td>
+                                <td>43.795.539</td>
+                                <td>$ 950.000</td>
+                                <td><button class="action-btn"><i class="fas fa-eye"></i></button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Expenses View -->
+        <div class="page-content" id="expenses-view" style="display: none;">
+            <div class="page-title">
+                Gestión de Gastos
+                <button class="action-btn" style="background: var(--primary-color); color: white; border: none;">
+                    <i class="fas fa-plus"></i> Registrar Gasto
+                </button>
+            </div>
+
+            <!-- P&L Summary (Estado de Resultados Automático) -->
+            <div style="background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%); color: white; padding: 25px; border-radius: 12px; margin-bottom: 30px; box-shadow: var(--shadow-md);">
+                <h3 style="margin-bottom: 20px; font-weight: 300;">Estado de Resultados (Estimado Mes Actual)</h3>
+                <div style="display: flex; justify-content: space-between; text-align: center; flex-wrap: wrap; gap: 20px;">
+                    <div style="flex: 1; min-width: 150px;">
+                        <div style="font-size: 0.9rem; opacity: 0.8;">Ingresos Operacionales</div>
+                        <div style="font-size: 1.5rem; font-weight: 700; color: #2ecc71;">$ 45.200.000</div>
+                    </div>
+                    <div style="font-size: 2rem; opacity: 0.3; display: flex; align-items: center;">-</div>
+                    <div style="flex: 1; min-width: 150px;">
+                        <div style="font-size: 0.9rem; opacity: 0.8;">Costos y Gastos</div>
+                        <div style="font-size: 1.5rem; font-weight: 700; color: #e74c3c;">$ 18.500.000</div>
+                    </div>
+                    <div style="font-size: 2rem; opacity: 0.3; display: flex; align-items: center;">=</div>
+                    <div style="flex: 1; min-width: 150px;">
+                        <div style="font-size: 0.9rem; opacity: 0.8;">Utilidad Neta</div>
+                        <div style="font-size: 1.5rem; font-weight: 700; color: #f1c40f;">$ 26.700.000</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Expense KPIs -->
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-title">Cuentas por Pagar</div>
+                    <div class="kpi-value" style="color: #e74c3c;">$ 5.2M</div>
+                    <div class="kpi-trend">3 facturas vencen hoy</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-title">Gastos de Nómina</div>
+                    <div class="kpi-value">$ 12.5M</div>
+                    <div class="kpi-trend">Estable vs mes anterior</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-title">Servicios Públicos</div>
+                    <div class="kpi-value">$ 1.2M</div>
+                    <div class="kpi-trend trend-down"><i class="fas fa-arrow-down"></i> 5% ahorro</div>
+                </div>
+            </div>
+
+            <!-- Expenses Table -->
+            <div class="table-card">
+                <div class="table-header">
+                    <div class="chart-title">Últimos Gastos Registrados</div>
+                    <div class="date-filter">Filtrar por Categoría</div>
+                </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Concepto</th>
+                                <th>Proveedor</th>
+                                <th>Fecha</th>
+                                <th>Categoría</th>
+                                <th>Estado</th>
+                                <th>Valor</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Arrendamiento Oficina 301</td>
+                                <td>Inmobiliaria El Sitio</td>
+                                <td>01/12/2025</td>
+                                <td>Arriendos</td>
+                                <td><span class="status-badge status-success">Pagado</span></td>
+                                <td>$ 2.500.000</td>
+                                <td><button class="action-btn"><i class="fas fa-file-alt"></i></button></td>
+                            </tr>
+                            <tr>
+                                <td>Licencias Microsoft Azure</td>
+                                <td>Microsoft Corp</td>
+                                <td>03/12/2025</td>
+                                <td>Tecnología</td>
+                                <td><span class="status-badge status-warning">Pendiente</span></td>
+                                <td>$ 850.000</td>
+                                <td><button class="action-btn"><i class="fas fa-credit-card"></i> Pagar</button></td>
+                            </tr>
+                            <tr>
+                                <td>Mantenimiento Aires</td>
+                                <td>Servicios Técnicos SAS</td>
+                                <td>28/11/2025</td>
+                                <td>Mantenimiento</td>
+                                <td><span class="status-badge status-success">Pagado</span></td>
+                                <td>$ 450.000</td>
+                                <td><button class="action-btn"><i class="fas fa-file-alt"></i></button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Chat Module -->
+        <div class="page-content" id="ai-chat-view" style="display: none;">
+            <div class="page-title">
+                Asistente Inteligente Kiai
+                <span style="font-size: 0.9rem; font-weight: 400; color: #888; margin-left: 10px;">
+                    <i class="fas fa-magic"></i> Generación de reportes en tiempo real
+                </span>
+            </div>
+
+            <div class="chat-container">
+                <div class="chat-header">
+                    <div class="ai-avatar"><i class="fas fa-brain"></i></div>
+                    <div>
+                        <div style="font-weight: 600;">Kiai AI Assistant</div>
+                        <div style="font-size: 0.75rem; color: #2ecc71;">● En línea</div>
+                    </div>
+                </div>
+                
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message ai">
+                        Hola Maria, soy tu asistente de inteligencia de negocios. 
+                        <br><br>
+                        Puedo generar reportes instantáneos para ti. Intenta preguntarme:
+                        <br>• "Muéstrame las ventas por ciudad"
+                        <br>• "¿Cuáles son los productos más vendidos?"
+                        <br>• "Comparativo de ingresos vs gastos"
+                    </div>
+                </div>
+
+                <div class="chat-input-area">
+                    <input type="text" class="chat-input" id="chatInput" placeholder="Escribe tu solicitud de reporte aquí..." onkeypress="handleKeyPress(event)">
+                    <button class="send-btn" onclick="sendMessage()">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        // Module Switching
+        function switchModule(moduleId, element) {
+            // Hide all views
+            document.getElementById('dashboard-view').style.display = 'none';
+            document.getElementById('ai-chat-view').style.display = 'none';
+            document.getElementById('expenses-view').style.display = 'none';
+            
+            // Show target view
+            document.getElementById(moduleId + '-view').style.display = 'block';
+
+            // Update menu active state
+            if(element) {
+                document.querySelectorAll('.menu-item').forEach(el => el.classList.remove('active'));
+                element.classList.add('active');
+            }
+        }
+
+        // Chat Logic
+        function handleKeyPress(e) {
+            if (e.key === 'Enter') sendMessage();
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const text = input.value.trim();
+            if (!text) return;
+
+            // Add User Message
+            addMessage(text, 'user');
+            input.value = '';
+
+            // Simulate AI Thinking
+            const loadingId = addMessage('<i class="fas fa-circle-notch fa-spin"></i> Analizando datos...', 'ai');
+
+            setTimeout(() => {
+                // Remove loading message
+                const loadingMsg = document.getElementById(loadingId);
+                if(loadingMsg) loadingMsg.remove();
+
+                // Generate Response
+                generateAIResponse(text);
+            }, 1500);
+        }
+
+        function addMessage(html, type) {
+            const container = document.getElementById('chatMessages');
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `message ${type}`;
+            msgDiv.id = 'msg-' + Date.now();
+            
+            if (type === 'ai') {
+                msgDiv.style.display = 'flex';
+                msgDiv.style.gap = '10px';
+                msgDiv.innerHTML = `
+                    <div class="ai-avatar" style="width: 25px; height: 25px; font-size: 0.7rem; min-width: 25px;"><i class="fas fa-brain"></i></div>
+                    <div>${html}</div>
+                `;
+            } else {
+                msgDiv.innerHTML = html;
+            }
+            
+            container.appendChild(msgDiv);
+            container.scrollTop = container.scrollHeight;
+            return msgDiv.id;
+        }
+
+        function generateAIResponse(query) {
+            const q = query.toLowerCase();
+            let responseHtml = '';
+            let chartConfig = null;
+            let chartId = 'chart-' + Date.now();
+
+            if (q.includes('ventas') || q.includes('ingresos')) {
+                responseHtml = 'Aquí tienes el reporte de ventas de los últimos 6 meses. Se observa una tendencia positiva.';
+                chartConfig = {
+                    type: 'bar',
+                    data: {
+                        labels: ['Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                        datasets: [{
+                            label: 'Ventas (Millones)',
+                            data: [12, 19, 15, 25, 22, 30],
+                            backgroundColor: '#ef781b'
+                        }]
+                    }
+                };
+            } else if (q.includes('ciudad') || q.includes('regiones')) {
+                responseHtml = 'Distribución de facturación por ciudades principales:';
+                chartConfig = {
+                    type: 'pie',
+                    data: {
+                        labels: ['Bogotá', 'Medellín', 'Cali', 'Barranquilla'],
+                        datasets: [{
+                            data: [45, 25, 20, 10],
+                            backgroundColor: ['#ef781b', '#2c3e50', '#e67e22', '#95a5a6']
+                        }]
+                    }
+                };
+            } else if (q.includes('producto') || q.includes('servicios')) {
+                responseHtml = 'Top 5 productos más vendidos este mes:';
+                chartConfig = {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Consultoría', 'Licencias', 'Soporte', 'Implementación', 'Capacitación'],
+                        datasets: [{
+                            data: [30, 25, 20, 15, 10],
+                            backgroundColor: ['#ef781b', '#f39c12', '#d35400', '#e74c3c', '#c0392b']
+                        }]
+                    }
+                };
+            } else if (q.includes('cliente') || q.includes('usuarios')) {
+                responseHtml = 'Análisis de crecimiento de clientes nuevos vs recurrentes:';
+                chartConfig = {
+                    type: 'line',
+                    data: {
+                        labels: ['Sem 1', 'Sem 2', 'Sem 3', 'Sem 4'],
+                        datasets: [{
+                            label: 'Nuevos',
+                            data: [5, 12, 8, 15],
+                            borderColor: '#2ecc71',
+                            tension: 0.4
+                        }, {
+                            label: 'Recurrentes',
+                            data: [20, 25, 22, 30],
+                            borderColor: '#3498db',
+                            tension: 0.4
+                        }]
+                    }
+                };
+            } else if (q.includes('gasto') || q.includes('costo') || q.includes('egreso')) {
+                responseHtml = 'Desglose de gastos operativos del mes actual:';
+                chartConfig = {
+                    type: 'bar',
+                    data: {
+                        labels: ['Nómina', 'Arriendo', 'Servicios', 'Marketing', 'Licencias'],
+                        datasets: [{
+                            label: 'Gastos (Millones)',
+                            data: [15, 5, 2, 4, 3],
+                            backgroundColor: '#e74c3c'
+                        }]
+                    }
+                };
+            } else {
+                // Fallback "Smart" Response for unknown topics
+                responseHtml = `He generado un análisis personalizado sobre "<b>${query}</b>" basado en los datos históricos:`;
+                chartConfig = {
+                    type: 'bar',
+                    data: {
+                        labels: ['Concepto A', 'Concepto B', 'Concepto C', 'Concepto D'],
+                        datasets: [{
+                            label: 'Indicador Clave',
+                            data: [Math.floor(Math.random() * 50) + 10, Math.floor(Math.random() * 50) + 10, Math.floor(Math.random() * 50) + 10, Math.floor(Math.random() * 50) + 10],
+                            backgroundColor: ['#ef781b', '#2c3e50', '#95a5a6', '#bdc3c7']
+                        }]
+                    }
+                };
+            }
+
+            // Append text response
+            const msgId = addMessage(responseHtml, 'ai');
+            
+            // Append Chart if config exists
+            if (chartConfig) {
+                const msgDiv = document.getElementById(msgId).querySelector('div:last-child');
+                const chartContainer = document.createElement('div');
+                chartContainer.className = 'generated-chart-container';
+                chartContainer.innerHTML = `<canvas id="${chartId}"></canvas>`;
+                msgDiv.appendChild(chartContainer);
+
+                // Render Chart
+                new Chart(document.getElementById(chartId), chartConfig);
+            }
+        }
+
+        // Sales Chart
+        const ctxSales = document.getElementById('salesChart').getContext('2d');
+        new Chart(ctxSales, {
+            type: 'line',
+            data: {
+                labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Ventas 2025',
+                    data: [12000, 19000, 15000, 25000, 22000, 30000],
+                    borderColor: '#ef781b',
+                    backgroundColor: 'rgba(239, 120, 27, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: { beginAtZero: true, grid: { borderDash: [5, 5] } },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+
+        // Status Chart
+        const ctxStatus = document.getElementById('statusChart').getContext('2d');
+        new Chart(ctxStatus, {
+            type: 'doughnut',
+            data: {
+                labels: ['Pagadas', 'Pendientes', 'Vencidas'],
+                datasets: [{
+                    data: [65, 25, 10],
+                    backgroundColor: [
+                        '#2ecc71',
+                        '#f1c40f',
+                        '#e74c3c'
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'bottom' }
+                },
+                cutout: '70%'
+            }
+        });
+    </script>
+</body>
+</html>
